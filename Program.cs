@@ -1,61 +1,75 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using CoffeeRecipes.Models;
-using System.Globalization;
+using CoffeeRecipes.Enums;
+using CoffeeRecipes;
 
-Console.WriteLine("Введите название кофе");
-string coffeeName= Console.ReadLine(); 
-Console.WriteLine($"Вы ввели {coffeeName}");
+List<Recipe> recipes = new List<Recipe>();
 
-double coffeeWeightGram = GetDouble("Введите вес зерна в граммах");
-Console.WriteLine($"Вес зерна {coffeeWeightGram}");
-double waterWeightGram = GetDouble("Введите количество воды в проливе в граммах");
-Console.WriteLine($"Вес воды {waterWeightGram}");
-double grindSize = GetDouble("Введите значение помола");
-Console.WriteLine($"Размер помола {grindSize}");
-
-bool resultTemperature;
-string inputTemperature;
-int temperature;
+int menuChoice;
 
 do
 {
-    Console.WriteLine("Введите температуру пролива");
-    inputTemperature = Console.ReadLine();
-    resultTemperature = int.TryParse(inputTemperature, out temperature);
-    if (resultTemperature == false)
+    menuChoice = InputHelper.GetInt("Выберите действие: 1 - Создать рецепт, 2 - Показать рецепты, 3 - Редактировать рецепт, 4 - Удалить рецепт, 5 - Выйти");
+    switch (menuChoice)
     {
-        Console.WriteLine($"Не получилось, попробуйте ввести еще раз");
+        case 1:
+            Recipe newRecipe = RecipeService.CreateRecipe();
+            recipes.Add(newRecipe);
+            break;
+        case 2:
+            if (recipes.Count == 0)
+            {
+                Console.WriteLine("Сохраненных рецептов еще нет");
+            }
+            else
+            {
+                RecipePrinter.PrintRecipeHeaders(recipes);
+                SelectRecipe(recipes);
+            }
+            break;
+        case 3:
+            if (recipes.Count == 0)
+            {
+                Console.WriteLine("Рецептов для редактирования еще нет");
+            }
+            else
+            {
+                RecipeService.EditRecipe(recipes);
+            }
+            break;
+        case 4:
+            if (recipes.Count == 0)
+            {
+                Console.WriteLine("Сохраненных рецептов еще нет");
+            }
+
+            else
+            {
+                RecipeService.DeleteRecipe(recipes);
+            }
+            
+            break;
+        
+        case 5:
+            Console.WriteLine("Программа завершена");
+            break;
+        default:
+            Console.WriteLine("Неверный пункт меню");
+            break;
     }
-}
-while(!resultTemperature);
-Console.WriteLine($"Температура воды {temperature}");
+} while (menuChoice !=5);
 
-Recipe firstRecipe = new Recipe();
-firstRecipe.CoffeeName = coffeeName;
-firstRecipe.CoffeeWeightGram = coffeeWeightGram;
-firstRecipe.WaterWeightGram = waterWeightGram;
-firstRecipe.Temperature = temperature;
-firstRecipe.GrindSize = grindSize;
-
-static double GetDouble(string questionForUser)
+static void SelectRecipe(List<Recipe> recipes)
 {
-    string userInput;
-    string userInputReplace;
-    double userInputDouble;
-    bool resultUserInput;
-
+    int userInputNumberRecipe;
     do
     {
-        Console.WriteLine(questionForUser);
-        userInput = Console.ReadLine();
-        userInputReplace = userInput.Replace(",", ".");
-        resultUserInput = double.TryParse(userInputReplace, CultureInfo.InvariantCulture, out userInputDouble);
-        if (resultUserInput == false)
+        userInputNumberRecipe = InputHelper.GetInt("Введите номер рецепта, чтобы посмотреть его полностью. Введите 0, чтобы вернуться назад");
+        if (userInputNumberRecipe == 0)
         {
-            Console.WriteLine($"Не получилось, попробуйте ввести еще раз");
+            return;
         }
-    }
-    while(!resultUserInput);
-    
-    return userInputDouble;
+
+    } while (userInputNumberRecipe < 1 || userInputNumberRecipe > recipes.Count);
+    RecipePrinter.PrintRecipe(recipes[userInputNumberRecipe -1]);
 }
