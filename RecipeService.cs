@@ -13,7 +13,7 @@ public class RecipeService
         string coffeeName = Console.ReadLine();
         RoastLevel roastLevel = InputHelper.GetRoastLevel();
         double coffeeWeightGram = InputHelper.GetDouble("Введите вес зерна в граммах");
-        int temperature = InputHelper.GetInt("Введите температуру воды");
+        int? temperature = InputHelper.GetOptionalInt("Введите температуру воды");
         double grindSize = InputHelper.GetDouble("Введите значение помола");
         double waterWeightGram = InputHelper.GetDouble("Введите количество воды в проливе в граммах");
         int brewTimeSeconds = InputHelper.GetBrewTimeSeconds();

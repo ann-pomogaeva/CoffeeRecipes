@@ -17,9 +17,35 @@ public class InputHelper
             Console.WriteLine(questionForInt);
             userInput = Console.ReadLine();
             resultUserInput = int.TryParse(userInput, out userInputInt);
+            
             if (resultUserInput == false)
             {
-                Console.WriteLine($"Не получилось, попробуйте ввести еще раз");
+                Console.WriteLine($"Не получилось, попробуйте ввести число еще раз");
+            }
+        }
+        while(!resultUserInput);
+
+        return userInputInt;
+    }
+
+    public static int? GetOptionalInt(string questionForInt)
+    {
+        string userInput;
+        int userInputInt;
+        bool resultUserInput;
+        
+        do
+        {
+            Console.WriteLine(questionForInt);
+            userInput = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(userInput))
+            {
+                return null; 
+            }
+            resultUserInput = int.TryParse(userInput, out userInputInt);
+            if (resultUserInput == false)
+            {
+                Console.WriteLine($"Не получилось, попробуйте ввести число еще раз");
             }
         }
         while(!resultUserInput);

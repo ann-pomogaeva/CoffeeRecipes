@@ -15,9 +15,6 @@ public class RecipePrinter
     }
     public static void PrintRecipe(Recipe recipe)
     {
-        int recipeMinutes = recipe.BrewTimeSecond / 60;
-        int recipeSeconds = recipe.BrewTimeSecond % 60;
-
         Console.WriteLine($"Метод заваривания: {recipe.BrewMethod}");
         Console.WriteLine($"Обжарщик: {recipe.Roaster}");
         Console.WriteLine($"Название кофе: {recipe.CoffeeName}");
@@ -26,8 +23,14 @@ public class RecipePrinter
         Console.WriteLine($"Температура воды: {recipe.Temperature} °C" );
         Console.WriteLine($"Степень помола: {recipe.GrindSize}");
         Console.WriteLine($"Количество воды: {recipe.WaterWeightGram} г");
-        Console.WriteLine($"Время пролива: {recipeMinutes}:{recipeSeconds:D2}");
+        if (recipe.BrewTimeSecond != null)
+        {
+            int recipeMinutes = recipe.BrewTimeSecond.Value / 60;
+            int recipeSeconds = recipe.BrewTimeSecond.Value % 60;
+            Console.WriteLine($"Время пролива: {recipeMinutes}:{recipeSeconds:D2}");
+        }
         Console.WriteLine($"Комментарий: {recipe.Comment}");
+        
     }
     public static void PrintEditMenu()
     {
