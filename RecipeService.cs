@@ -7,18 +7,15 @@ public class RecipeService
     public static Recipe CreateRecipe()
     {
         BrewMethod brewMethod = InputHelper.GetBrewMethod();
-        Console.WriteLine("Введите название обжарщика");
-        string roaster = Console.ReadLine();
-        Console.WriteLine("Введите название кофе");
-        string coffeeName = Console.ReadLine();
+        string? roaster = InputHelper.GetOptionalString("Введите название обжарщика");
+        string coffeeName = InputHelper.GetRequiredString("Введите название кофе");
         RoastLevel roastLevel = InputHelper.GetRoastLevel();
-        double coffeeWeightGram = InputHelper.GetDouble("Введите вес зерна в граммах");
+        double? coffeeWeightGram = InputHelper.GetOptionalDouble("Введите вес зерна в граммах");
         int? temperature = InputHelper.GetOptionalInt("Введите температуру воды");
-        double grindSize = InputHelper.GetDouble("Введите значение помола");
-        double waterWeightGram = InputHelper.GetDouble("Введите количество воды в проливе в граммах");
+        double? grindSize = InputHelper.GetOptionalDouble("Введите значение помола");
+        double? waterWeightGram = InputHelper.GetOptionalDouble("Введите количество воды в проливе в граммах");
         int brewTimeSeconds = InputHelper.GetBrewTimeSeconds();
-        Console.WriteLine("Введите комментарий");
-        string comment = Console.ReadLine();
+        string? comment = InputHelper.GetOptionalString("Введите комментарий");
 
         Recipe recipe = new Recipe();
         recipe.CoffeeName = coffeeName;

@@ -75,6 +75,34 @@ public class InputHelper
     
         return userInputDouble;
     }
+
+    public static double? GetOptionalDouble(string questionForUser)
+    {
+        string userInput;
+        string userInputReplace;
+        double userInputDouble;
+        bool resultUserInput;
+        
+        do
+        {
+            Console.WriteLine(questionForUser);
+            userInput = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(userInput))
+            {
+                return null; 
+            }
+            userInputReplace = userInput.Replace(",", ".");
+            resultUserInput = double.TryParse(userInputReplace, CultureInfo.InvariantCulture, out userInputDouble);
+            if (resultUserInput == false)
+            {
+                Console.WriteLine($"Не получилось, попробуйте ввести еще раз");
+            }
+        }
+        while(!resultUserInput);
+    
+        return userInputDouble;
+    }
+    
     public static BrewMethod GetBrewMethod()
     {
         int brewMethodNumber;
@@ -172,4 +200,32 @@ public class InputHelper
         int brewTimeSeconds = minutes * 60 + seconds;
         return brewTimeSeconds;
     }
+
+    public static string? GetOptionalString(string questionForUser)
+    {
+        Console.WriteLine(questionForUser);
+        string? userInput = Console.ReadLine();
+        if (string.IsNullOrWhiteSpace(userInput))
+        {
+            return null; 
+        }
+        return userInput;
+    }
+
+    public static string GetRequiredString(string questionForUser)
+    {
+        string userInput;
+        Console.WriteLine(questionForUser);
+        do
+        {
+            userInput = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(userInput))
+            {
+                Console.WriteLine("Введите значение еще раз");
+            }
+        } while (string.IsNullOrWhiteSpace(userInput));
+
+        return userInput; 
+    }
+   
 }
