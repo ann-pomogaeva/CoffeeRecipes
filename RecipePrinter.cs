@@ -9,28 +9,60 @@ public class RecipePrinter
         int recipeNumber = 1;
         foreach (Recipe recipe in recipes)
         {
-            Console.WriteLine($"{recipeNumber}. {recipe.BrewMethod} — {recipe.Roaster} — {recipe.CoffeeName}");
+            string header = $"{recipeNumber}. {recipe.BrewMethod}";
+            if (!string.IsNullOrWhiteSpace(recipe.Roaster))
+            {
+                header += $" — {recipe.Roaster}";
+            }
+            header += $" — {recipe.CoffeeName}";
+            Console.WriteLine(header);
             recipeNumber++;
+            
         }
     }
     public static void PrintRecipe(Recipe recipe)
     {
+        Console.WriteLine($"Дата и время: {recipe.CreatedAt.ToString("dd.MM.yyyy HH:mm")}");
         Console.WriteLine($"Метод заваривания: {recipe.BrewMethod}");
-        Console.WriteLine($"Обжарщик: {recipe.Roaster}");
+        if (recipe.Roaster != null)
+        {
+            Console.WriteLine($"Обжарщик: {recipe.Roaster}");
+        }
         Console.WriteLine($"Название кофе: {recipe.CoffeeName}");
-        Console.WriteLine($"Степень обжарки: {recipe.RoastLevel}");
-        Console.WriteLine($"Вес зерен: {recipe.CoffeeWeightGram} г");
-        Console.WriteLine($"Температура воды: {recipe.Temperature} °C" );
-        Console.WriteLine($"Степень помола: {recipe.GrindSize}");
-        Console.WriteLine($"Количество воды: {recipe.WaterWeightGram} г");
+        if (recipe.RoastLevel != null)
+        {
+            Console.WriteLine($"Степень обжарки: {recipe.RoastLevel}");
+        }
+
+        if (recipe.CoffeeWeightGram != null)
+        {
+            Console.WriteLine($"Вес зерен: {recipe.CoffeeWeightGram} г");
+        }
+
+        if (recipe.Temperature != null)
+        {
+            Console.WriteLine($"Температура воды: {recipe.Temperature} °C" );
+        }
+
+        if (recipe.GrindSize != null)
+        {
+            Console.WriteLine($"Степень помола: {recipe.GrindSize}");
+        }
+        if (recipe.WaterWeightGram != null)
+        {
+            Console.WriteLine($"Количество воды: {recipe.WaterWeightGram} г");
+        }
         if (recipe.BrewTimeSecond != null)
         {
             int recipeMinutes = recipe.BrewTimeSecond.Value / 60;
             int recipeSeconds = recipe.BrewTimeSecond.Value % 60;
             Console.WriteLine($"Время пролива: {recipeMinutes}:{recipeSeconds:D2}");
         }
-        Console.WriteLine($"Комментарий: {recipe.Comment}");
-        
+
+        if (recipe.Comment != null)
+        {
+            Console.WriteLine($"Комментарий: {recipe.Comment}");
+        }
     }
     public static void PrintEditMenu()
     {

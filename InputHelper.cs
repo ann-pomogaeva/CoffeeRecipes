@@ -135,20 +135,24 @@ public class InputHelper
         return brewMethod;
     }
     
-    public static RoastLevel GetRoastLevel()
+    public static RoastLevel? GetOptionalRoastLevel()
     {
-        int roastLevelNumber; 
+        int? roastLevelNumber; 
         RoastLevel roastLevel = RoastLevel.Light;
 
         do
         {
-            roastLevelNumber = InputHelper.GetInt("Выберите степень обжарки: 1 — Светлая, 2 — Средняя, 3 — Темная");
-            if (roastLevelNumber < 1 || roastLevelNumber > 3)
+            roastLevelNumber = InputHelper.GetOptionalInt("Выберите степень обжарки: 1 — Светлая, 2 — Средняя, 3 — Темная");
+            if (roastLevelNumber == null)
+            {
+                return null;
+            }
+            if (roastLevelNumber.Value < 1 || roastLevelNumber.Value > 3)
             {
                 Console.WriteLine("Таких значений нет. Попробуйте еще раз");
             }
         } 
-        while (roastLevelNumber < 1 || roastLevelNumber > 3);
+        while (roastLevelNumber.Value < 1 || roastLevelNumber.Value > 3);
 
         switch (roastLevelNumber)
         {
@@ -166,7 +170,7 @@ public class InputHelper
         return roastLevel;
     }
     
-    public static int GetBrewTimeSeconds()
+    public static int? GetOptionalBrewTimeSeconds()
     {
         bool resultMinutes = false;
         bool resultSeconds = false;
@@ -174,8 +178,12 @@ public class InputHelper
         int seconds = 0;
         do
         {
-            Console.WriteLine("Введите время пролива в формете минуты:секунды");
-            string brewTime = Console.ReadLine();
+            Console.WriteLine("Введите время пролива в формате минуты:секунды");
+            string? brewTime = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(brewTime))
+            {
+                return null; 
+            }
             string[] partsTime = brewTime.Split(':');
             if (partsTime.Length != 2)
             {
@@ -185,7 +193,15 @@ public class InputHelper
             string minutesString = partsTime[0];
             string secondsString = partsTime[1];
             resultMinutes  = int.TryParse(minutesString, out minutes);
+            if (!resultMinutes)
+            {
+                Console.WriteLine("Введите количество минут числом");
+            }
             resultSeconds = int.TryParse(secondsString, out seconds);
+            if (!resultSeconds)
+            {
+                Console.WriteLine("Введите количество секунд числом");
+            }
             if (seconds < 0 || seconds > 59)
             {
                 Console.WriteLine("Введите корректное количество секунд");

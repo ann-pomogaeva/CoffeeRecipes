@@ -4,6 +4,7 @@ namespace CoffeeRecipes.Models;
 
 public class Recipe
 {
+    public DateTime CreatedAt { get; set; }
     public BrewMethod BrewMethod { get; set; }
     public string? Roaster { get; set; }
     public string CoffeeName { get; set; }

@@ -6,18 +6,20 @@ public class RecipeService
 {
     public static Recipe CreateRecipe()
     {
+        DateTime createdAt = DateTime.Now;
         BrewMethod brewMethod = InputHelper.GetBrewMethod();
         string? roaster = InputHelper.GetOptionalString("Введите название обжарщика");
         string coffeeName = InputHelper.GetRequiredString("Введите название кофе");
-        RoastLevel roastLevel = InputHelper.GetRoastLevel();
+        RoastLevel? roastLevel = InputHelper.GetOptionalRoastLevel();
         double? coffeeWeightGram = InputHelper.GetOptionalDouble("Введите вес зерна в граммах");
         int? temperature = InputHelper.GetOptionalInt("Введите температуру воды");
         double? grindSize = InputHelper.GetOptionalDouble("Введите значение помола");
         double? waterWeightGram = InputHelper.GetOptionalDouble("Введите количество воды в проливе в граммах");
-        int brewTimeSeconds = InputHelper.GetBrewTimeSeconds();
+        int? brewTimeSeconds = InputHelper.GetOptionalBrewTimeSeconds();
         string? comment = InputHelper.GetOptionalString("Введите комментарий");
 
         Recipe recipe = new Recipe();
+        recipe.CreatedAt = createdAt; 
         recipe.CoffeeName = coffeeName;
         recipe.CoffeeWeightGram = coffeeWeightGram;
         recipe.WaterWeightGram = waterWeightGram;
@@ -75,41 +77,31 @@ public class RecipeService
                     recipeToEdit.BrewMethod = InputHelper.GetBrewMethod();
                     break;
                 case 2:
-                    Console.WriteLine("Введите название обжарщика");
-                    string roaster = Console.ReadLine();
-                    recipeToEdit.Roaster = roaster;
+                    recipeToEdit.Roaster = InputHelper.GetOptionalString("Введите название обжарщика");
                     break;
                 case 3:
-                    Console.WriteLine("Введите название кофе");
-                    string newCoffeeName = Console.ReadLine();
-                    recipeToEdit.CoffeeName = newCoffeeName;
+                    recipeToEdit.CoffeeName = InputHelper.GetRequiredString("Введите название (страну) кофе");
                     break;
                 case 4:
-                    recipeToEdit.RoastLevel = InputHelper.GetRoastLevel();
+                    recipeToEdit.RoastLevel = InputHelper.GetOptionalRoastLevel();
                     break;
                 case 5:
-                    double newCoffeeWeightGram = InputHelper.GetDouble("Введите вес зерна в граммах");
-                    recipeToEdit.CoffeeWeightGram = newCoffeeWeightGram;
+                    recipeToEdit.CoffeeWeightGram = InputHelper.GetOptionalDouble("Введите вес зерна в граммах");
                     break;
                 case 6:
-                    int newTemperature = InputHelper.GetInt("Введите температуру воды");
-                    recipeToEdit.Temperature = newTemperature;
+                    recipeToEdit.Temperature = InputHelper.GetOptionalInt("Введите температуру воды");
                     break;
                 case 7:
-                    double newGrindSize = InputHelper.GetDouble("Введите значение помола");
-                    recipeToEdit.GrindSize = newGrindSize;
+                    recipeToEdit.GrindSize = InputHelper.GetOptionalDouble("Введите значение помола");
                     break;
                 case 8:
-                    double newWaterWeightGram = InputHelper.GetDouble("Введите количество воды в проливе в граммах");
-                    recipeToEdit.WaterWeightGram = newWaterWeightGram;
+                    recipeToEdit.WaterWeightGram = InputHelper.GetOptionalDouble("Введите количество воды в проливе в граммах");
                     break;
                 case 9:
-                    recipeToEdit.BrewTimeSecond = InputHelper.GetBrewTimeSeconds();
+                    recipeToEdit.BrewTimeSecond = InputHelper.GetOptionalBrewTimeSeconds();
                     break;
                 case 10:
-                    Console.WriteLine("Введите комментарий");
-                    string comment = Console.ReadLine();
-                    recipeToEdit.Comment = comment;
+                    recipeToEdit.Comment = InputHelper.GetOptionalString("Введите комментарий");
                     break;
                 case 11:
                     recipes[userNumberEdit - 1] = recipeToEdit;
